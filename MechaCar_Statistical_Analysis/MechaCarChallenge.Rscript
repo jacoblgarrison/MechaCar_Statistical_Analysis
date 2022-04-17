@@ -1,0 +1,34 @@
+library (dplyr)
+
+# Linear Regression to Predict MPG 
+# read the csv to a dataframe 
+
+MechaCar_mpg_df <- read.csv(file='MechaCar_mpg.csv', check.names = F, stringsAsFactors = F)
+head(MechaCar_mpg_df)
+
+# Multiple Linear Regression Model
+lm(mpg ~ vehicle_length + vehicle_weight + spoiler_angle + ground_clearance + AWD,data=MechaCar_mpg_df)
+
+# Locate the p-value and r-squared value
+summary(lm(mpg ~ vehicle_length + vehicle_weight + spoiler_angle + ground_clearance + AWD,data=MechaCar_mpg_df))
+
+# Suspension Coil Lot Analysis
+
+# Read the csv to a dataframe 
+Suspension_Coil_df <- read.csv(file='Suspension_Coil.csv', check.names = F, stringsAsFactors = F)
+head(Suspension_Coil_df)
+# Create a summary dataframe
+total_summary <- Suspension_Coil_df %>% summarize(Mean = mean(PSI), Median = median(PSI), Variance = var(PSI), SD = sd(PSI))
+
+# Create summaries for each lot
+lot_summary <- Suspension_Coil_df %>% group_by(Manufacturing_Lot) %>% summarize(Mean = mean(PSI), Median = median(PSI), Variance = var(PSI), SD = sd(PSI), .groups = 'keep')
+
+# T-tests on suspension coils
+t.test(Suspension_Coil_df$PSI, mu=1500)
+
+t.test(subset(Suspension_Coil_df,Manufacturing_Lot=="Lot1")$PSI, mu = 1500)
+t.test(subset(Suspension_Coil_df,Manufacturing_Lot=="Lot2")$PSI, mu = 1500)
+t.test(subset(Suspension_Coil_df,Manufacturing_Lot=="Lot3")$PSI, mu = 1500)
+
+
+
